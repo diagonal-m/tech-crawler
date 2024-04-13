@@ -19,11 +19,12 @@ Resources:
       Architectures:
         - x86_64
       Events:
-        TechCrawlerApi:
-          Type: Api
+        TechCrawlerSchedule:
+          Type: Schedule
           Properties:
-            Path: /hello
-            Method: get
+            Schedule: cron(0 20 * * ? *)
+            Enabled: True
+
 
 Outputs:
   TechCrawlerFunction:
