@@ -19,16 +19,14 @@ Resources:
       Architectures:
         - x86_64
       Events:
-        TechCrawlerApi:
-          Type: Api
+        TechCrawlerSchedule:
+          Type: Schedule
           Properties:
-            Path: /hello
-            Method: get
+            Schedule: cron(0 20 * * ? *)
+            Enabled: True
+
 
 Outputs:
-  TechCrawlerApi:
-    Description: "API Gateway endpoint URL for Prod stage for Tech Crawler function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
   TechCrawlerFunction:
     Description: "Tech Crawler Lambda Function ARN"
     Value: !GetAtt TechCrawlerFunction.Arn
