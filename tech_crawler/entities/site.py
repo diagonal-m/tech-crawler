@@ -1,5 +1,5 @@
 from typing import List
-from news import News
+from entities.news import News
 
 class Site():
   def __init__(self, site_name, url):
