@@ -118,6 +118,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+.aws-sam/
 .Python
 build/
 develop-eggs/
