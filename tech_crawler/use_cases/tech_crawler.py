@@ -10,8 +10,8 @@ class TechCrawler:
     self.__s3_client = s3_client
 
   def execute(self) -> None:
-    crawling_list = CrawlingList(self.__parameter_store_client, self.__s3_client).crawling_list
-    for i in range(crawling_list.shape[0]):
-      row = crawling_list.iloc[i]
-      site = Site(row['site_name'], row['url'])
+    crawling_list = CrawlingList(self.__parameter_store_client, self.__s3_client)
+    while crawling_list.has_next():
+      crawling_target = crawling_list.next()
+      site = Site(crawling_target['site_name'], crawling_target['url'])
       print(site.site_name, site.url)
