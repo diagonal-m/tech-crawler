@@ -13,5 +13,17 @@ class TechCrawler:
     crawling_list = CrawlingList(self.__parameter_store_client, self.__s3_client)
     while crawling_list.has_next():
       crawling_target = crawling_list.next()
-      site = Site(crawling_target['site_name'], crawling_target['url'])
+      site = Site(
+        crawling_target['site_name'],
+        crawling_target['url'],
+        crawling_target['attr_type'],
+        crawling_target['attr_name'],
+        self.__parameter_store_client,
+        self.__s3_client
+      )
       print(site.site_name, site.url)
+      news_list = site.fetch_news()
+      for news in news_list:
+        print(news.site_name)
+        print(news.title)
+        print(news.url)

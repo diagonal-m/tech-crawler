@@ -9,7 +9,8 @@ class ParameterStoreClient(ParameterStore):
     def params(self):
         return {
             'crawling_master_file_name': 'crawling_master.csv',
-            'crawling_master_bucket_name': self._get_parameter('crawling-master-bucket-name')
+            'crawling_master_bucket_name': self._get_parameter('crawling-master-bucket-name'),
+            'urls_bucket_name': self._get_parameter('urls-bucket-name')
         }
 
     def _get_parameter(self, name: str) -> str:
