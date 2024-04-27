@@ -1,13 +1,16 @@
 from entities.crawling_list import CrawlingList
 from entities.site import Site
+from entities.news import News
 
 from interfaces.storage import Storage
 from interfaces.parameter_store import ParameterStore
+from interfaces.notifier import Notifier
 
 class TechCrawler:
-  def __init__(self, parameter_store_client: ParameterStore, s3_client: Storage) -> None:
+  def __init__(self, parameter_store_client: ParameterStore, s3_client: Storage, slack_client: Notifier) -> None:
     self.__parameter_store_client = parameter_store_client
     self.__s3_client = s3_client
+    self.__slack_client = slack_client
 
   def execute(self) -> None:
     crawling_list = CrawlingList(self.__parameter_store_client, self.__s3_client)
@@ -21,9 +24,12 @@ class TechCrawler:
         self.__parameter_store_client,
         self.__s3_client
       )
-      print(site.site_name, site.url)
       news_list = site.fetch_news()
       for news in news_list:
-        print(news.site_name)
-        print(news.title)
-        print(news.url)
+        self.__slack_client.notify(
+          self.__parameter_store_client.params['satoichi_hub_webhook'],
+          self.message(news)
+        )
+
+  def message(self, news: News) -> str:
+    return f'{news.site_name}\n<{news.url}|{news.title}>'

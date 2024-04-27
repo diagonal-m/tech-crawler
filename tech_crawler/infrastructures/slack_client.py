@@ -1,8 +1,16 @@
+import json
+import requests
+
 from interfaces.notifier import Notifier
 
 class SlackClient(Notifier):
     def __init__(self) -> None:
-        super().__init__()
+        pass
 
-    def notify(self, message: str) -> None:
-        print(message)
+    def notify(self, webhook: str, message: str) -> None:
+        """
+        スラックにメッセージを送信
+        """
+        requests.post(webhook, data=json.dumps({
+            "text": message
+        }))
