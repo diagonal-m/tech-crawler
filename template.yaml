@@ -5,10 +5,6 @@ Description: >
 
   Sample SAM Template for tech-crawler
 
-Globals:
-  Function:
-    Timeout: 60
-
 Resources:
   TechCrawlerFunction:
     Type: AWS::Serverless::Function
@@ -16,13 +12,14 @@ Resources:
       CodeUri: tech_crawler/
       Handler: app.lambda_handler
       Runtime: python3.12
+      Timeout: 300
       Architectures:
         - x86_64
       Events:
         TechCrawlerSchedule:
           Type: Schedule
           Properties:
-            Schedule: cron(0 20 * * ? *)
+            Schedule: cron(0 8,20 * * ? *)
             Enabled: True
 
 
