@@ -30,6 +30,10 @@ class TechCrawler:
           self.__parameter_store_client.params['satoichi_hub_webhook'],
           self.message(news)
         )
+        self.__slack_client.notify(
+          self.__parameter_store_client.params['satoichi_scrap_webhook'],
+          self.message(news)
+        )
 
   def message(self, news: News) -> str:
     return f'{news.site_name}\n<{news.url}|{news.title}>'

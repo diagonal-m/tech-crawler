@@ -12,6 +12,7 @@ class ParameterStoreClient(ParameterStore):
             'crawling_master_bucket_name': self._get_parameter('crawling-master-bucket-name'),
             'urls_bucket_name': self._get_parameter('urls-bucket-name'),
             'satoichi_hub_webhook': self._get_parameter('satoichi-hub-tech-news-webhook'),
+            'satoichi_scrap_webhook': self._get_parameter('satoichi-scrap-webhook'),
         }
 
     def _get_parameter(self, name: str) -> str:
