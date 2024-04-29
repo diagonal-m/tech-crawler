@@ -17,10 +17,7 @@ class TechCrawler:
     while crawling_list.has_next():
       crawling_target = crawling_list.next()
       site = Site(
-        crawling_target['site_name'],
-        crawling_target['url'],
-        crawling_target['attr_type'],
-        crawling_target['attr_name'],
+        crawling_target,
         self.__parameter_store_client,
         self.__s3_client
       )

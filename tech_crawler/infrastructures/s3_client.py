@@ -14,6 +14,7 @@ class S3Client(Storage):
         csv_string = self.download_file(bucket_name, key)
         # 文字列データから直接pandasのデータフレームを作成
         df = pd.read_csv(StringIO(csv_string))
+        df = df.fillna('')
         return df
 
     def download_file(self, bucket_name: str, key: str) -> str:

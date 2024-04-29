@@ -7,13 +7,17 @@ from interfaces.parameter_store import ParameterStore
 from interfaces.storage import Storage
 
 from entities.news import News
+
+import pandas as pd
 from bs4 import BeautifulSoup
 
 class Site():
-  def __init__(self, site_name: str, url: str, attr_type: str, attr_name: str, parameter_store: ParameterStore, storage: Storage):
-    self.site_name = site_name
-    self.url = url
-    self.params = {attr_type: attr_name}
+  def __init__(self, crawling_target: pd.Series, parameter_store: ParameterStore, storage: Storage):
+    self.site_name = crawling_target['site_name']
+    self.url = crawling_target['url']
+    self.area_tag = crawling_target['area_tag']
+    self.area_params = {crawling_target['area_attr_type']: crawling_target['area_attr_name']}
+    self.a_params = {crawling_target['a_attr_type']: crawling_target['a_attr_name']}
     self.__parameter_store = parameter_store
     self.__storage = storage
     self.__key = self.__make_key()
@@ -67,7 +71,11 @@ class Site():
   
   def parse_anchor_tags(self, html: str) -> list:
     soup = BeautifulSoup(html, 'html.parser')
-    return [a_tag for a_tag in soup.find_all('a', **self.params) if a_tag.has_attr('href')]
+
+    if self.area_tag:
+      soup = soup.find(self.area_tag, **self.area_params)
+
+    return [a_tag for a_tag in soup.find_all('a', **self.a_params) if a_tag.has_attr('href')]
   
   def make_news(self, new_a_tags: list) -> List[News]:
     news_list = []
