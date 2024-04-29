@@ -27,16 +27,15 @@ class Site():
       self.__storage.upload(self.__parameter_store.params['urls_bucket_name'], self.__key, latest_html)
       return []
 
-    # 変化なしの場合
-    if latest_html == before_html:
-      return []
-    else:
-      self.__storage.upload(self.__parameter_store.params['urls_bucket_name'], self.__key, latest_html)
-
     latest_a_tags = self.parse_anchor_tags(latest_html)
     before_a_tags = self.parse_anchor_tags(before_html)
 
     new_a_tags = self.get_new_a_tags(latest_a_tags, before_a_tags)
+    if len(new_a_tags) == 0:
+      return []
+
+    self.__storage.upload(self.__parameter_store.params['urls_bucket_name'], self.__key, latest_html)
+
     news_list = self.make_news(new_a_tags)
 
     return news_list
