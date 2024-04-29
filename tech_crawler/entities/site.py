@@ -49,6 +49,7 @@ class Site():
     サイトの最新HTMLを取得
     """
     response = requests.get(self.url)
+    response.encoding = response.apparent_encoding
     response.raise_for_status()
     return response.text
   
